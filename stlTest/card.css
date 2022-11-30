@@ -1,0 +1,9 @@
+
+
+.nft-image {
+  transition: transform .5s ease;
+}
+
+.nft-image:hover {
+  transform: scale(1.5);
+}
