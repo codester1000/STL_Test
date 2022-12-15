@@ -4,13 +4,14 @@
     <title>Three.js Periodic Table Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
     <style>
         html, body {
             height: 100%;
         }
 
         body {
-            background-color: #000000;
+            background-color: #e0e0e0;
             margin: 0;
             font-family: Helvetica, sans-serif;;
             overflow: hidden;
@@ -20,27 +21,66 @@
             color: #ffffff;
         }
 
-        #menu {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-
     </style>
+    <script type="text/javascript" src="./token-negotiator-dist/negotiator.js"></script>
+    <link rel="stylesheet" href="./token-negotiator-dist/theme/style.css" />
+    <link rel="stylesheet" href="token-negotiator.css">
+
     <link rel="stylesheet" href="card.css">
 
+
 </head>
-<body>
+<body onload="init()">
 
 <script src="./lib/three.js"></script>
-<script src="./lib/Tween.min.js"></script>
+<script src="./lib/tween.min.js"></script>
 <script src="./lib/controls/TrackballControls.js"></script>
 <script src="./lib/renderers/CSS3DRenderer.js"></script>
 
-<div id="container"></div>
+<div class="overlay-tn"></div>   
+<script>
+        let nfts = []
+    function init() {
+        window.negotiator = new negotiator.Client({
+            type: 'active',
+            autoEnableTokens: true,
+            issuers: [
+                { 
+                    onChain: true, 
+                    collectionID: "opensea-creatures", 
+                    contract: '0xBCC745Df4e94362fE6ceA32467abc31A333A2dA8', 
+                    chain: 'goerli', 
+                    openSeaSlug: 'opensea-creatures',
+                    contract: '0xBCC745Df4e94362fE6ceA32467abc31A333A2dA8'
+                }],
+            uiOptions: {
+                openingHeading: "Connect your wallet to see your wallet displayed",
+                repeatAction: "try again",
+                theme: "light",
+                position: "bottom-right"
+            }
+        });
+
+        window.negotiator.on("tokens-selected", (tokens) => {
+            console.log(tokens);
+        });
+
+        window.negotiator.on("token-proof", (proof) => {
+            console.log(proof);
+        });
+
+        window.negotiator.negotiate();
+
+    }
+    // write to make sure the wallet connects to the website before displaying the tokens
+
+</script>
+
+<div id="container">
+</div>
 
 
 <script src="./main.js"></script>
+
 </body>
 </html>
